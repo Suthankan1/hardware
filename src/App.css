@@ -1,19 +1,33 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+/* src/App.css */
 
+/*
+  With Material-UI:
+  - Global CSS resets (like body margin, default fonts, background color) are handled by
+    MUI's <CssBaseline /> component, which you include in your App.jsx or main.jsx.
+  - Typography (h1-h6, p tags) is best controlled using MUI's <Typography> component
+    and your custom theme defined in main.jsx.
+  - Layout and container styles (like #root max-width, margin, padding) are typically
+    managed by MUI's <Container> or <Box> components directly in your JSX.
+  - Component-specific styles (like .card) are handled by MUI's respective components
+    (e.g., <Card> for your SensorCard).
+
+  Therefore, this file becomes very minimal, focusing on things MUI doesn't directly
+  control, such as specific non-MUI component styles or very niche global overrides.
+*/
+
+
+/* Existing logo styles (keep these if you are still displaying the Vite/React logos in App.jsx) */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -33,10 +47,15 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
+/*
+  Removed from your original App.css:
+  - `body` styles: Handled by <CssBaseline />.
+  - `#root` styles: Better managed by <Container> or <Box> in your JSX.
+  - `h1, h2, ... p` styles: Handled by <Typography> and your MUI theme.
+  - `.card` styles: Handled by the <Card> component within your SensorCard.
+  - `.read-the-docs`: This is a class from the default Vite starter, remove it if no longer needed in your JSX.
 
-.read-the-docs {
-  color: #888;
-}
+  If you need a specific global background color for the entire application,
+  it's best set in your Material-UI theme in `main.jsx`:
+  e.g., in `createTheme({ palette: { background: { default: '#f8fafc' } } })`
+*/
