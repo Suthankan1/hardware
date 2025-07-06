@@ -1,7 +1,7 @@
 // src/components/Dashboard.jsx
-import React from 'react';
-import SensorCard from './SensorCard'; // Import SensorCard
-import SensorLineChart from './SensorLineChart'; // Import SensorLineChart
+import React from 'react'; // Removed useState
+import SensorCard from './SensorCard';
+import SensorLineChart from './SensorLineChart'; // Still imported for SensorLineChart usage within GraphDisplayModal
 
 // Material-UI components
 import Box from '@mui/material/Box';
@@ -9,8 +9,9 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
+// Removed Collapse
 
-// Material Icons
+// Material Icons (already defined, kept for completeness)
 import ThermostatIcon from '@mui/icons-material/Thermostat';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import StraightenIcon from '@mui/icons-material/Straighten';
@@ -18,7 +19,6 @@ import Co2Icon from '@mui/icons-material/Co2';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
-// Mapping for Material Icons
 const sensorIcons = {
   temperature: <ThermostatIcon sx={{ fontSize: 40 }} />,
   humidity: <WaterDropIcon sx={{ fontSize: 40 }} />,
@@ -28,7 +28,6 @@ const sensorIcons = {
   uv: <WbSunnyIcon sx={{ fontSize: 40 }} />,
 };
 
-// Define specific colors for each chart line
 const chartColors = {
   temperature: '#ef5350',
   humidity: '#42a5f5',
@@ -38,7 +37,8 @@ const chartColors = {
   uv: '#f06292',
 };
 
-function Dashboard({ sensorData, historicalData }) {
+// Dashboard now receives onOpenGraphModal instead of onChartDataClick for inline charts
+function Dashboard({ sensorData, historicalData, onChartDataClick, onOpenGraphModal }) {
   const sensors = [
     { key: "temperature", title: "Temperature", unit: "°C", value: sensorData.temperature, icon: sensorIcons.temperature, color: chartColors.temperature },
     { key: "humidity", title: "Humidity", unit: "%", value: sensorData.humidity, icon: sensorIcons.humidity, color: chartColors.humidity },
@@ -48,15 +48,20 @@ function Dashboard({ sensorData, historicalData }) {
     { key: "uv", title: "UV Index", unit: "", value: sensorData.uv, icon: sensorIcons.uv, color: chartColors.uv },
   ];
 
+  // Handler for when a SensorCard is clicked. It will now open the graph modal.
+  const handleSensorCardClick = (key) => {
+    if (onOpenGraphModal) {
+      onOpenGraphModal(key);
+    }
+  };
+
   return (
     <Box
       sx={{
         py: 5,
         minHeight: '100vh',
-        background: 'linear-gradient(to top right, #e3f2fd, #ede7f6, #fce4ec)',
       }}
     >
-      {/* Updated Main Heading */}
       <Typography
         variant="h3" component="h1" align="center" gutterBottom
         sx={{ fontWeight: 'bold', color: 'text.primary', mb: 5, textShadow: '2px 2px 4px rgba(0,0,0,0.1)' }}
@@ -65,7 +70,6 @@ function Dashboard({ sensorData, historicalData }) {
       </Typography>
 
       <Container maxWidth="lg">
-        {/* Current Readings Section */}
         <Typography
           variant="h4" component="h2" align="center" gutterBottom
           sx={{ mb: 4, color: 'primary.dark', fontWeight: 'bold' }}
@@ -84,35 +88,16 @@ function Dashboard({ sensorData, historicalData }) {
                   (sensor.key === "temperature" && (sensor.value > 40 || sensor.value < 0)) ||
                   (sensor.key === "co2" && sensor.value > 1500)
                 )}
+                onClick={() => handleSensorCardClick(sensor.key)} // Pass click handler
+                // Removed isSelected prop as it's no longer needed for inline graph display
               />
             </Grid>
           ))}
         </Grid>
 
-        <Divider sx={{ my: 6, borderColor: 'divider', borderWidth: 2 }} />
-
-        {/* Sensor Trends Section */}
-        <Typography
-          variant="h4" component="h2" align="center" gutterBottom
-          sx={{ mb: 4, color: 'secondary.dark', fontWeight: 'bold' }}
-        >
-          Sensor Trends
-        </Typography>
-
-        <Grid container spacing={4} justifyContent="center">
-          {sensors.map((sensor) => (
-            <Grid item xs={12} md={6} lg={4} key={`chart-${sensor.key}`}>
-              <SensorLineChart
-                title={sensor.title}
-                dataKey={sensor.key}
-                unit={sensor.unit}
-                color={sensor.color}
-                // Pass the full historicalData array to the chart component
-                historicalData={historicalData}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        {/* Removed Divider and Sensor Trends section as they are now in GraphDisplayModal */}
+        {/* <Divider sx={{ my: 6, borderColor: 'divider', borderWidth: 2 }} /> */}
+        {/* <Collapse in={!!selectedSensorKey}>...</Collapse> */}
       </Container>
     </Box>
   );
