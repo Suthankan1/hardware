@@ -43,17 +43,28 @@ function SensorLineChart({ title, dataKey, unit, color, historicalData }) {
   return (
     <Card
       sx={{
-        height: '100%', // Ensures the card fills the height of its grid item
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: 3, // Rounded corners for a softer look
-        boxShadow: 3,    // Standard Material-UI shadow for elevation
-        p: 2,            // Padding inside the card
-        backgroundColor: 'background.paper', // Uses white background from theme
-        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out', // Smooth hover effect
+        borderRadius: 4,
+        boxShadow: theme => theme.palette.mode === 'dark'
+          ? '0 8px 32px rgba(0, 0, 0, 0.4)'
+          : '0 8px 32px rgba(0, 0, 0, 0.12)',
+        p: 2,
+        background: theme => theme.palette.mode === 'dark' 
+          ? 'rgba(255, 255, 255, 0.08)' 
+          : 'rgba(255, 255, 255, 0.9)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: theme => `1px solid ${theme.palette.mode === 'dark' 
+          ? 'rgba(255, 255, 255, 0.1)' 
+          : 'rgba(255, 255, 255, 0.3)'}`,
+        transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         '&:hover': {
-          transform: 'translateY(-4px)', // Lifts the card slightly on hover
-          boxShadow: 6,                 // Increases shadow depth on hover
+          transform: 'translateY(-4px)',
+          boxShadow: theme => theme.palette.mode === 'dark'
+            ? '0 12px 40px rgba(0, 0, 0, 0.5)'
+            : '0 12px 40px rgba(0, 0, 0, 0.15)',
         },
       }}
     >
@@ -64,7 +75,19 @@ function SensorLineChart({ title, dataKey, unit, color, historicalData }) {
 
         {/* Render chart only if there's enough historical data */}
         {historicalData.length > 1 ? (
-          <Box sx={{ width: '100%', height: 300 }}> {/* Container for the chart with specific height */}
+          <Box sx={{ 
+            width: '100%', 
+            height: 300,
+            background: theme => theme.palette.mode === 'dark' 
+              ? 'rgba(0, 0, 0, 0.2)' 
+              : 'rgba(255, 255, 255, 0.5)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: 2,
+            p: 1,
+            border: theme => `1px solid ${theme.palette.mode === 'dark' 
+              ? 'rgba(255, 255, 255, 0.05)' 
+              : 'rgba(255, 255, 255, 0.3)'}`,
+          }}> {/* Container for the chart with specific height */}
             <LineChart
               xAxis={xAxis}
               yAxis={yAxis}
@@ -79,7 +102,18 @@ function SensorLineChart({ title, dataKey, unit, color, historicalData }) {
             />
           </Box>
         ) : (
-          <Box sx={{ p: 4, textAlign: 'center' }}>
+          <Box sx={{ 
+            p: 4, 
+            textAlign: 'center',
+            background: theme => theme.palette.mode === 'dark' 
+              ? 'rgba(255, 255, 255, 0.03)' 
+              : 'rgba(0, 0, 0, 0.02)',
+            backdropFilter: 'blur(5px)',
+            borderRadius: 2,
+            border: theme => `1px solid ${theme.palette.mode === 'dark' 
+              ? 'rgba(255, 255, 255, 0.05)' 
+              : 'rgba(0, 0, 0, 0.05)'}`,
+          }}>
             <Typography variant="body1" color="text.secondary">
               Collecting data for chart...
             </Typography>
