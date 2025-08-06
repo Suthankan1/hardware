@@ -9,6 +9,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 
 function App({ getTheme }) {
+  // Add console log for debugging
+  console.log('App component is loading...', { getTheme: typeof getTheme });
+  
   // Theme state
   const [darkMode, setDarkMode] = useState(() => {
     // Check localStorage for saved theme preference, default to light mode

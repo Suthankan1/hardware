@@ -39,6 +39,9 @@ const chartColors = {
 };
 
 function Dashboard({ sensorData, historicalData }) {
+  // Add console log for debugging
+  console.log('Dashboard component is loading...', { sensorData, historicalDataLength: historicalData?.length });
+  
   // State to track which sensor's modal is open
   const [selectedSensor, setSelectedSensor] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
