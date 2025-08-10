@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import About from './components/About'; // Import About component
 
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -41,6 +42,10 @@ function App({ getTheme }) {
   // State for historical data points, used for charting
   const [historicalData, setHistoricalData] = useState([]);
   const MAX_HISTORY_POINTS = 30; // Keep the last 30 data points for smoother chart trends
+
+  // Navigation state
+  const [activeNav, setActiveNav] = useState('home');
+  const handleNavClick = (nav) => setActiveNav(nav);
 
   useEffect(() => {
     // Simulate real-time sensor data updates
@@ -81,7 +86,12 @@ function App({ getTheme }) {
       <CssBaseline />
       
       {/* Header Component */}
-      <Header darkMode={darkMode} toggleTheme={toggleTheme} />
+      <Header 
+        darkMode={darkMode} 
+        toggleTheme={toggleTheme} 
+        activeNav={activeNav} 
+        handleNavClick={handleNavClick} 
+      />
       
       {/* Main Content with premium glass-morphism background */}
       <Box
@@ -183,8 +193,12 @@ function App({ getTheme }) {
           },
         }}
       >
-        {/* The Dashboard component receives the current and historical sensor data */}
-        <Dashboard sensorData={sensorData} historicalData={historicalData} />
+        {/* Render About component if 'about' is the active navigation item, otherwise render Dashboard */}
+        {activeNav === 'about' ? (
+          <About />
+        ) : (
+          <Dashboard sensorData={sensorData} historicalData={historicalData} />
+        )}
         
         {/* Footer Component */}
         <Footer darkMode={darkMode} />

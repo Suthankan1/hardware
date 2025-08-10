@@ -1,5 +1,5 @@
 // src/components/Header.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import {
   AppBar,
   Toolbar,
@@ -20,13 +20,8 @@ import {
   Memory as ChipIcon,
 } from '@mui/icons-material';
 
-function Header({ darkMode, toggleTheme }) {
+function Header({ darkMode, toggleTheme, activeNav, handleNavClick }) {
   const theme = useTheme();
-  const [activeNav, setActiveNav] = useState('home');
-
-  const handleNavClick = (nav) => {
-    setActiveNav(nav);
-  };
 
   const handleGitHubClick = () => {
     window.open('https://github.com/Suthankan1/hardware', '_blank');
